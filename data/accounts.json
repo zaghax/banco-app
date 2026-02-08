@@ -1,0 +1,66 @@
+[
+  {
+    "id": "cuenta-001",
+    "nombre": "Ahorro Joven",
+    "tipo": "Ahorro programado",
+    "descripcion": "Cuenta para menores de 28 años con beneficios especiales.",
+    "tasaAnual": "5.2%",
+    "montoMinimo": 50
+  },
+  {
+    "id": "cuenta-002",
+    "nombre": "Ahorro Plus",
+    "tipo": "Ahorro tradicional",
+    "descripcion": "Cuenta de ahorros con liquidez total y tasa competitiva.",
+    "tasaAnual": "4.8%",
+    "montoMinimo": 100
+  },
+  {
+    "id": "cuenta-003",
+    "nombre": "Ahorro Empresarial",
+    "tipo": "Ahorro empresarial",
+    "descripcion": "Diseñada para PyMEs con opción de nómina.",
+    "tasaAnual": "4.5%",
+    "montoMinimo": 500
+  },
+  {
+    "id": "cuenta-004",
+    "nombre": "Ahorro Meta",
+    "tipo": "Ahorro programado",
+    "descripcion": "Ahorro con depósitos automáticos mensuales.",
+    "tasaAnual": "5.5%",
+    "montoMinimo": 200
+  },
+  {
+    "id": "cuenta-005",
+    "nombre": "Cuenta Nómina Ahorro",
+    "tipo": "Nómina",
+    "descripcion": "Vincula tu nómina y ahorra con rendimientos.",
+    "tasaAnual": "4.2%",
+    "montoMinimo": 0
+  },
+  {
+    "id": "cuenta-006",
+    "nombre": "Ahorro Vivienda",
+    "tipo": "Ahorro programado",
+    "descripcion": "Prepara tu ahorro para crédito hipotecario.",
+    "tasaAnual": "5.0%",
+    "montoMinimo": 300
+  },
+  {
+    "id": "cuenta-007",
+    "nombre": "Ahorro Premium",
+    "tipo": "Ahorro tradicional",
+    "descripcion": "Para saldos mayores con tasa preferencial.",
+    "tasaAnual": "6.0%",
+    "montoMinimo": 10000
+  },
+  {
+    "id": "cuenta-008",
+    "nombre": "Nómina Básica",
+    "tipo": "Nómina",
+    "descripcion": "Cuenta de nómina con opción de ahorro automático.",
+    "tasaAnual": "3.8%",
+    "montoMinimo": 0
+  }
+]

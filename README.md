@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Banco App
 
-## Getting Started
+Aplicación Next.js con listado de productos de ahorro, simulador de interés y formulario de onboarding.
 
-First, run the development server:
+## Cómo ejecutar
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000). Desde la página de inicio puedes ir a:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **/products** – Listado de cuentas de ahorro
+- **/simulator** – Simulador de ahorro con cálculo de interés
+- **/onboarding** – Solicitud de cuenta con reCAPTCHA simulado
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 1. Página /products (listado y filtros)
 
-To learn more about Next.js, take a look at the following resources:
+- **Datos:** listado de cuentas de ahorro definido en `data/accounts.json`.
+- **Filtros:** por nombre y por tipo, con **búsqueda en tiempo real y debounce de 300 ms** para no disparar filtrado en cada tecla.
+- **Renderizado: ISR (Incremental Static Regeneration).**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Por qué ISR en /products
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Se eligió **ISR** en lugar de SSR puro por:
 
-## Deploy on Vercel
+1. **Contenido semi-estático:** el catálogo de productos no cambia en cada request; un JSON local se actualiza poco.
+2. **Rendimiento:** la página se sirve como estática y se revalida en segundo plano cada `revalidate` segundos (60 s en este proyecto), reduciendo carga en el servidor y mejorando tiempos de respuesta.
+3. **Escalabilidad:** en producción, si el origen de datos fuera una API o CMS, ISR permite cachear la respuesta y revalidar periódicamente sin tener que generar la página en cada visita (como en SSR con `dynamic`).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+En resumen: ISR da un buen equilibrio entre “siempre fresco” y “rápido y cacheable” para un listado que no requiere datos en tiempo real por request. Si se necesitara contenido distinto por usuario o por cada carga, tendría más sentido usar SSR.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 2. Página /simulator (formulario y cálculo de interés)
+
+- **Campos:** monto inicial, aporte mensual y número de meses.
+- **Validaciones:** monto inicial o aporte obligatorios, meses > 0 y límite razonable (ej. 600), formato de moneda.
+- **Formato de moneda:** entrada/salida en formato local (ej. COP) y mensajes de error claros.
+
+### Lógica del interés (fórmula documentada en código)
+
+Se usa **interés compuesto** con capitalización mensual:
+
+1. **Tasa mensual:** `r = tasaAnual / 12` (ej. 5% anual → r ≈ 0,004167).
+2. **Valor futuro del monto inicial:**  
+   `VF0 = montoInicial × (1 + r)^meses`
+3. **Valor futuro de los aportes mensuales (anualidad vencida):**  
+   `VF_aportes = aporteMensual × ((1 + r)^meses - 1) / r`
+4. **Monto total estimado:**  
+   `total = VF0 + VF_aportes`
+5. **Interés estimado:**  
+   `interes = total - montoInicial - (aporteMensual × meses)`
+
+La tasa de referencia por defecto es 5% anual y está definida en el código del simulador.
+
+---
+
+## 3. Página /onboarding (formulario y reCAPTCHA simulado)
+
+- **Campos:** nombre, documento, correo y un **campo oculto** para el token de reCAPTCHA.
+- **reCAPTCHA simulado:** en esta demo no se usa el widget real. El token se considera válido solo si el valor del campo oculto es exactamente `"OK"`. Para probar, se incluye un botón “Simular reCAPTCHA (OK)” que escribe ese valor en el campo oculto.
+- **Validación:** si el token no es `"OK"`, se muestra un **error visual** (mensaje y bloque de error) y no se envía la solicitud.
+- **Envío correcto:** al validar todo (incluido reCAPTCHA), se muestra un mensaje de **éxito** con un **código de solicitud** generado (UUID vía `crypto.randomUUID()` o, si no existe, un código alternativo tipo `SOL-{timestamp}-{random}`).
+
+En producción, el campo oculto se rellenaría con el token que devuelve el widget real de reCAPTCHA y la validación se haría en backend.
+
+---
+
+## Estructura relevante
+
+```
+app/
+  page.tsx              # Inicio con enlaces
+  products/
+    page.tsx            # Página ISR que lee data/accounts.json
+    ProductsList.tsx    # Cliente: listado + filtros con debounce
+    useDebounce.ts      # Hook de debounce
+  simulator/
+    page.tsx            # Formulario + cálculo de interés
+  onboarding/
+    page.tsx            # Formulario + reCAPTCHA simulado + código UUID
+data/
+  accounts.json         # Cuentas de ahorro (mock)
+```
+
+---
+
+## Tecnologías
+
+- [Next.js](https://nextjs.org) (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
