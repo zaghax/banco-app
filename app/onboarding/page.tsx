@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FormInput from "../utils/FormInput";
 import { FormErrors } from "../types/types";
+import Image from "next/image";
 
 const RECAPTCHA_VALID_TOKEN = "OK";
 
@@ -29,7 +30,7 @@ export default function OnboardingPage() {
       e.correo = "Indica un correo electrónico válido.";
     }
     if (recaptchaToken.trim() !== RECAPTCHA_VALID_TOKEN) {
-      e.recaptcha = "Debes completar la verificación (reCAPTCHA). En esta demo escribe OK en el campo oculto o usa el botón simular.";
+      e.recaptcha = "Debes completar la verificación (reCAPTCHA).";
     }
 
     setErrors(e);
@@ -57,6 +58,9 @@ export default function OnboardingPage() {
   }
 
   return (
+
+    <>
+    <Image src="/banner-calculadora-otros-objetivos-v1.JPG" alt="Banner" width={1000} height={0} style={{ width: '100%', height: 'auto', marginBottom: '2rem' }}  />
     <div className="min-h-screen mx-auto max-w-3xl">
 
       <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
@@ -179,5 +183,6 @@ export default function OnboardingPage() {
       )}
 
     </div>
+    </>
   );
 }

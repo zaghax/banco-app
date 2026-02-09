@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-neutral-50">
 
-      <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <Image src="/dia-mundial-del-ahorro-banner.png" alt="Banner" width={1000} height={0} style={{ width: '100%', height: 'auto', marginBottom: '2rem' }}  />
 
         <h1 className="text-3xl font-bold text-neutral-900">
           Banco App
@@ -44,7 +45,6 @@ export default function Home() {
           </Link>
         </nav>
 
-      </main>
       
     </div>
   );

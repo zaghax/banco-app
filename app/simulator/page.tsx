@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FormInput from "../utils/FormInput";
 import { FormErrorsSimulator } from "../types/types";
+import Image from "next/image";
 
 /**
  * Fórmula de interés utilizada (documentada):
@@ -101,7 +102,12 @@ export default function SimulatorPage() {
   }
 
   return (
+    <>
+    <Image src="/Banner_Web_SimuladorDeAhorro.png" alt="Banner" width={1000} height={0} style={{ width: '100%', height: 'auto', marginBottom: '2rem' }}  />
+
     <div className="min-h-screen mx-auto max-w-3xl">
+
+
     
       <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
         Simulador de ahorro
@@ -173,5 +179,6 @@ export default function SimulatorPage() {
       )}
 
     </div>
+    </>
   );
 }

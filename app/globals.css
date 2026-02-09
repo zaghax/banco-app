@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --freedom: #CEEDFD;
+  --maastrichtBlue: #00253D;
 }
 
 @theme inline {
@@ -24,3 +26,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--freedom);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 1rem 2rem;
+}
+
+header nav a  {
+  color: var(--maastrichtBlue);
+}
+

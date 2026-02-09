@@ -2,6 +2,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { ProductsList } from "./ProductsList";
 import { type SavingsAccount } from "../types/types";
+import Image from "next/image";
 
 // ISR: revalidar esta página cada 60 segundos
 export const revalidate = 60;
@@ -18,8 +19,10 @@ export default async function ProductsPage() {
   return (
     <div className="min-h-screen">
 
+      <Image src="/banner-lineas-de-ahorro.jpg" alt="Banner" width={1000} height={0} style={{ width: '100%', height: 'auto', marginBottom: '2rem' }}  />
+
       <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-        Cuentas de ahorro
+        Lineas de ahorro
       </h1>
 
       <p className="mt-1 text-neutral-600">
